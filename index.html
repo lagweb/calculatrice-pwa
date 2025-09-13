@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculatrice iOS Style</title>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="calculator" />
+  <link rel="manifest" href="/site.webmanifest" />
+  </head>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #3c3b3b;
+      font-family: Arial, sans-serif;
+    }
+    .calc {
+      width: 260px;
+      background: #000;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    #display {
+      width: 100%;
+      height: 130px;
+      background: #242424;
+      color: white;
+      font-size: 32px;
+      text-align: right;
+      border: none;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      padding: 1px;
+    }
+    .keys {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    button {
+      height: 60px;
+      border: none;
+      border-radius: 10%;
+      font-size: 20px;
+      cursor: pointer;
+      color: white;
+    }
+    .num { background: #333; }
+    .num:hover { color: green; background: rgb(6, 37, 6); transition: 0.3s;
+    }
+    .op { background: #ff9500; }
+    .op:hover{color: rgba(255, 151, 107, 0.729); background: rgb(117, 33, 2); transition: 0.3s;}
+    .light { background: #a5a5a5; color: black; }
+    .light:hover{color: rgb(136, 1, 1); background: #3c2020; transition: 0.3s;}
+    .zero {
+        background: #ff9500;
+      grid-column: span 2;
+      border-radius: 10px;
+      text-align: left;
+      padding-left: 20px;
+    }
+    .zero:hover{
+      color: rgba(255, 151, 107, 0.729); background: rgb(117, 33, 2); transition: 0.3s;
+    }
+  </style>
+</head>
+<body>
+  <div class="calc">
+    <input type="text" id="display" disabled>
+    <div class="keys">
+      <button class="light" onclick="clearDisplay()">C</button>
+      <button class="light" onclick="addValue('%')">%</button>
+      <button class="light" onclick="deleteLast()">⌫</button>
+      <button class="op" onclick="addValue('/')">÷</button>
+
+      <button class="num" onclick="addValue('7')">7</button>
+      <button class="num" onclick="addValue('8')">8</button>
+      <button class="num" onclick="addValue('9')">9</button>
+      <button class="op" onclick="addValue('*')">×</button>
+
+      <button class="num" onclick="addValue('4')">4</button>
+      <button class="num" onclick="addValue('5')">5</button>
+      <button class="num" onclick="addValue('6')">6</button>
+      <button class="op" onclick="addValue('-')">−</button>
+
+      <button class="num" onclick="addValue('1')">1</button>
+      <button class="num" onclick="addValue('2')">2</button>
+      <button class="num" onclick="addValue('3')">3</button>
+      <button class="op" onclick="addValue('+')">+</button>
+
+      <button class="num zero" onclick="addValue('0')">0</button>
+      <button class="num" onclick="addValue('.')">.</button>
+      <button class="op" onclick="calculate()">=</button>
+    </div>
+  </div>
+
+  <script>
+    function addValue(val) {
+      document.getElementById("display").value += val;
+    }
+    function clearDisplay() {
+      document.getElementById("display").value = "";
+    }
+    function deleteLast() {
+      let ecran = document.getElementById("display");
+      ecran.value = ecran.value.slice(0, -1);
+    }
+    function calculate() {
+      let ecran = document.getElementById("display");
+      try {
+        ecran.value = eval(ecran.value);
+      } catch {
+        ecran.value = "Erreur 💀";
+      }
+    }
+  </script>
+  <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+    .then(()=>console.log('SW registered'))
+    .catch(e=>console.log('SW fail', e));
+}
+</script>
+
+</body>
+</html>
